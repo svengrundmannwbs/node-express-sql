@@ -6,14 +6,15 @@ import {
   updateOrder,
   deleteOrder,
 } from "../controllers/orders.js";
+import { orderValidator } from "../middleware/orderValidator.js";
 
-//USERS
+//ORDERS
 const ordersRouter = express.Router();
-ordersRouter.route("/").get(getOrders).post(addOrder);
+ordersRouter.route("/").get(getOrders).post(orderValidator, addOrder);
 ordersRouter
   .route("/:id")
   .get(getOrderById)
-  .put(updateOrder)
+  .put(orderValidator, updateOrder)
   .delete(deleteOrder);
 
 export default ordersRouter;

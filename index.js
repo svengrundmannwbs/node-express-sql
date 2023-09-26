@@ -4,8 +4,7 @@ import ordersRouter from "./routes/ordersRouter.js";
 const app = express();
 const PORT = 8000;
 
-app.use(express.json()); // body-parser
-
+app.use(express.json());
 //ROUTES
 app.use("/users", usersRouter);
 app.use("/orders", ordersRouter);

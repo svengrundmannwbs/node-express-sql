@@ -1,4 +1,5 @@
 import pool from "../db/server.js";
+import { validationResult } from "express-validator";
 
 export const getOrders = async (req, res) => {
   try {
@@ -23,6 +24,14 @@ export const getOrderById = async (req, res) => {
 
 export const addOrder = async (req, res) => {
   const { price, date, user_id } = req.body;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ errors: errors.array().map((err) => err.msg) });
+  }
+
   try {
     const result = await pool.query(
       "INSERT INTO orders (price, date, user_id) VALUES ($1, $2, $3) RETURNING *;",
@@ -37,6 +46,14 @@ export const addOrder = async (req, res) => {
 export const updateOrder = async (req, res) => {
   const { id } = req.params;
   const { price, date, user_id } = req.body;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ errors: errors.array().map((err) => err.msg) });
+  }
+
   try {
     const result = await pool.query(
       "UPDATE orders SET price = $1, date = $2, user_id = $3 WHERE id = $4 RETURNING *;",
