@@ -5,6 +5,7 @@ export const userValidator = [
   body("last_name").notEmpty().withMessage("last_name is required"),
   body("age")
     .notEmpty()
+    .withMessage("age is required")
     .isInt()
-    .withMessage("age is required and must be an integer"),
+    .withMessage("age must be an integer"),
 ];
